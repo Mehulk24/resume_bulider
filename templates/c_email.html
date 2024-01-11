@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+        crossorigin="anonymous" />
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/email1.css' %}">
+
+    <title>OTP Field Form - Coding Torque</title>
+</head>
+
+<body>
+     <p>OTP sent on {{cemail}}</p>
+     <h1>Enter OTP</h1>
+     <div id="error-message"></div>
+     <div class="otp-field">
+         <input type="text" maxlength="1" />
+         <input type="text" maxlength="1" />
+         <input class="space" type="text" maxlength="1" />
+         <input type="text" maxlength="1" />
+         <input type="text" maxlength="1" />
+         <input type="text" maxlength="1" />
+     </div>
+
+     <form method="post" id="myForm">
+        {% csrf_token %}
+        <input type="hidden" name="pav" id="pav" value="">
+     </form>
+    <script>
+        var c_otp = "{{cootp}}";
+        console.log(c_otp);
+const inputs = document.querySelectorAll(".otp-field input");
+
+inputs.forEach((input, index) => {
+    input.dataset.index = index;
+    input.addEventListener("keyup", handleOtp);
+    input.addEventListener("paste", handleOnPasteOtp);
+});
+
+function handleOtp(e) {
+    const input = e.target;
+    let value = input.value;
+    let isValidInput = value.match(/[0-9a-z]/gi);
+    input.value = "";
+    input.value = isValidInput ? value[0] : "";
+
+    let fieldIndex = input.dataset.index;
+    if (fieldIndex < inputs.length - 1 && isValidInput) {
+        input.nextElementSibling.focus();
+    }
+
+    if (e.key === "Backspace" && fieldIndex > 0) {
+        input.previousElementSibling.focus();
+    }
+
+    if (fieldIndex == inputs.length - 1 && isValidInput) {
+        submit();
+    }
+}
+
+function handleOnPasteOtp(e) {
+    const data = e.clipboardData.getData("text");
+    const value = data.split("");
+    if (value.length === inputs.length) {
+        inputs.forEach((input, index) => (input.value = value[index]));
+        submit();
+    }
+}
+
+function submit() {
+    console.log("Submitting...");
+
+    let otp = "";
+    inputs.forEach((input) => {
+        otp += input.value;
+        input.disabled = true;
+        input.classList.add("disabled");
+    });
+    console.log(otp);
+
+    var attemptsLeft = 3;
+    if (c_otp == otp) {
+        document.getElementById('pav').value = '1';
+        document.querySelector('#myForm').submit();
+    }
+    else {
+        if (attemptsLeft > 0) {
+            // Wrong OTP, display error message
+            inputs.forEach((input) => {
+                input.value = "";
+                input.disabled = false;
+                input.classList.remove("disabled");
+            });
+            var errorMessageElement = document.getElementById('error-message');
+            errorMessageElement.textContent = "You entered a wrong OTP.";
+        } else {
+            // No attempts left, redirect to the failure page
+            window.location.href = "/compnay/";
+        }
+        attemptsLeft--;
+    }
+}
+    </script>
+
+</body>
+
+</html>

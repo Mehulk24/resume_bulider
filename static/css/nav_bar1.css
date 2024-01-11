@@ -1,0 +1,48 @@
+.navbar
+{
+     background-color: #d6ebe4;
+     color: rgb(0, 0, 0);
+}
+
+.bt{
+    background-color: #1D263A;
+     border-radius: 10px;
+     color: white;
+     text-align: center;
+     display: inline-block;
+     font-size: 16px;
+     padding: 2px 20px;
+}
+
+.lo{
+     padding-top: 11px;
+     text-underline-position: none;
+}
+
+.options{
+     list-style: none;
+     text-align: center;
+     text-wrap:balance;
+     white-space: initial; 
+     text-decoration: none;
+     color: rgb(0, 0, 0);
+     font-size: 20px;
+     font-weight: 500;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     padding-top: 10px;
+     
+     
+     }
+     .options li:hover{
+       background: #a2a5a7 !important;
+       height: 85px;
+       border-radius: 20px;
+       
+     }
+
+     .options li a {
+       display: block;
+       padding-top: 30px;
+       padding-bottom: 30px;
+   }
+

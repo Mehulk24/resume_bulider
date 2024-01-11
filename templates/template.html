@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .job {
+            text-align: center;
+            margin: 30px 30px;
+        }
+        
+        .job p {
+            margin: 20px 20px;
+            
+
+            
+        }
+
+        .job button {
+            color: white;
+            background-color: blue;
+            margin: 30px 30px;
+            padding: 20px 20px;
+            border-radius: 20px 20px;
+            font-size: 20px;
+        }
+
+        .nav {
+            margin: 30px 30px;
+        }
+
+        .nav ul {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        }
+
+        .nav ul li {
+            list-style: none;
+            align-items: center;
+            text-align: center;
+
+        }
+        
+        .image {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            /* background-color: red; */
+            margin: auto 100px;
+            
+        }
+
+        .image img {
+            height: 60vh;
+            margin: 50px 50px;
+
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html'%}
+    <div class="job">
+        <h1>Job-winning simple resume templates</h1>
+        <p>Each template is expertly designed and follows the exact "resume rules" hiring managers
+
+            <br>
+            look for.Stand out and get hired faster with field-tested resume templates.
+        </p>
+        <button>Create My Resume</button>
+    </div>
+    
+    <div class="nav">
+        <ul>
+            <li>ALLTEMPLATES</li>
+            <li>SIMPLE</li>
+            <li>MODERN</li>
+            <li>CREATIVE</li>
+            <li>PROFESSIONAL</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="image">
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\Free-Business-Resume-Template.webp" alt="">
+        </div>
+
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\download.jpeg" alt="">
+        </div>
+
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\OIP (1).jpeg" alt="">
+        </div>
+
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\Free-Business-Resume-Template.webp" alt="">
+        </div>
+
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\download.jpeg" alt="">
+        </div>
+
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\OIP (1).jpeg" alt="">
+        </div>
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\Free-Business-Resume-Template.webp" alt="">
+        </div>
+
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\download.jpeg" alt="">
+        </div>
+
+        <div class="img">
+            <img src="C:\Users\Tisha\OneDrive\Desktop\website\images\OIP (1).jpeg" alt="">
+        </div>
+    </div>
+{% include 'footer.html'%}
+</body>
+
+</html>
