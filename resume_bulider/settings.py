@@ -128,3 +128,20 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
+MEDIA_URL = '/media/'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+# Add this line to include your periodic task
+CELERY_BEAT_SCHEDULE = {
+    'check-user-activity': {
+        'task': 'resume.tasks.check_user_activity',
+        'schedule': 300,  # Run the task every 5 minutes
+    },
+}
+
+

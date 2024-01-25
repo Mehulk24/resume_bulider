@@ -16,4 +16,5 @@ urlpatterns = [
     path('job/',views.job,name='job'),
     path('logout/',views.my_logout,name='logout'),
     path('edit_profile/',views.edit_profile,name='edit_profile'),   
+    path('c_home/',views.c_home,name='c_home'),
 ]

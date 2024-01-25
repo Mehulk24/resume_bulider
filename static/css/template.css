@@ -1,0 +1,42 @@
+* {
+     margin: 0;
+     padding: 0;
+ }
+ 
+ .job {
+     text-align: center;
+     margin: 30px 30px;
+ }
+ 
+ .job p {
+     margin: 20px 20px;
+     
+
+     
+ }
+
+ .job button {
+     color: white;
+     background-color: blue;
+     margin: 30px 30px;
+     padding: 20px 20px;
+     border-radius: 20px 20px;
+     font-size: 20px;
+ }
+
+ .nav {
+     margin: 30px 30px;
+ }
+
+ .nav ul {
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+ }
+
+ .nav ul li {
+     list-style: none;
+     align-items: center;
+     text-align: center;
+
+ }

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser
 
 # Create your models here.
 class User_t(models.Model):
@@ -14,7 +15,7 @@ class User_t(models.Model):
      def __str__(self):
           return self.firstname
 
-class compnay(models.Model):
+class Company(models.Model):
      c_id = models.AutoField(primary_key=True)
      c_name = models.CharField(max_length=50)
      c_email = models.EmailField(max_length=50)
@@ -33,7 +34,7 @@ class job_vacancy(models.Model):
      jv_no_of_vacancy = models.IntegerField(default=0)
      jv_eligibility = models.CharField(max_length=50)
      jv_exprince = models.CharField(max_length=50)
-     c_id = models.ForeignKey(compnay,on_delete=models.CASCADE,to_field='c_id')
+     c_id = models.ForeignKey(Company,on_delete=models.CASCADE,to_field='c_id')
     
 
 class apply_job(models.Model):

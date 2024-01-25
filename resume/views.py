@@ -1,11 +1,19 @@
+from django.utils import timezone
+import smtplib
+import random
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth import authenticate,logout,login
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
+from django.dispatch import receiver
+from django.contrib.auth.signals import user_logged_in
 from resume.models import (
      
      User_t,
-     compnay,
+     Company,
      job_vacancy,
      apply_job,
      templates
@@ -13,6 +21,9 @@ from resume.models import (
 )
 
 # Create your views here.
+def navbar(request):
+     return render(request,'navbar.html',{'email':request.session.get('email')});
+
 def index(request):
      return render(request,'index.html');
 
@@ -27,16 +38,13 @@ def hlogin(request):
                login(request,user)
                return redirect('index')
           else:
+               messages.error(request,"Invalid username or password")
                return redirect('login')
      return render(request,'login.html');
 
 def sing_up(request):
      
      def otp_ver(email):
-          import smtplib
-          import random
-          from email.mime.text import MIMEText
-          from email.mime.multipart import MIMEMultipart
 
           def generate_otp():
                digits = '0123456789'
@@ -139,10 +147,7 @@ def email(request):
 def company(request):
      
      def otp_ver(email):
-          import smtplib
-          import random
-          from email.mime.text import MIMEText
-          from email.mime.multipart import MIMEMultipart
+          
 
           def generate_otp():
                digits = '0123456789'
@@ -191,10 +196,10 @@ def company(request):
           cemail = request.POST['cemail']
           cpassword = request.POST['cpassword']
           city = request.POST['city']
-          
-          if compnay.objects.filter(c_name=cname).exists() or compnay.objects.filter(c_email=cemail).exists():
-               messages.error(request,"email is already exist plese login or try another email")
-          elif cpassword >=8 :
+
+          if Company.objects.filter(c_name=cname).exists() or Company.objects.filter(c_email=cemail).exists():
+               messages.error(request,"email or name is already exist plese login or try another email")
+          elif len(cpassword)<=8 :
                messages.error(request,"password is too short,please enter more than 8 character")
           else:
                otp_ver(cemail)
@@ -202,7 +207,7 @@ def company(request):
                request.session['cemail']= cemail
                request.session['cpassword']= cpassword
                request.session['city']= city
-                    
+
                return redirect('/c_email')
           
           
@@ -214,22 +219,24 @@ def company_login(request):
      if request.method == 'POST':
           cemail = request.POST['cemail']
           cpassword = request.POST['cpassword']
+          
+          company_email = Company.objects.all()
+          company_password = Company.objects.all()
+          for i in range(len(company_email)):
+               if cemail == company_email[i].c_email and cpassword == company_password[i].c_password:
+                    request.session['cemail']= cemail
+                    return redirect('c_home')
+               else:
+                    messages.error(request,"email or password is wrong")
+                    return render(request,'company_login.html')
      
-     company_email = compnay.objects.all()
-     company_password = compnay.objects.all()
-        
-     for i in range(len(company_email)):
-          if cemail == company_email[i].c_email and cpassword == company_password[i].c_password:
-               login(request,company_email[i])
-               return redirect('/')
-          else:
-               print("not")
+          
      
-     return render(request,'company_login.html');
+     return render(request,'company_login.html',);
 
 
 def c_email(request):
-     #compnay
+     #company
      cootp=request.session.get('cootp')
      cname = request.session.get('cname')
      cemail = request.session.get('cemail')
@@ -240,7 +247,7 @@ def c_email(request):
           su = request.POST.get('pav')
           print(su)
           if su == '1':
-               cdata = compnay(c_name=cname,c_email=cemail,c_password=cpassword,c_location=city)
+               cdata = company(c_name=cname,c_email=cemail,c_password=cpassword,c_location=city)
                cdata.save()
                return redirect('/')
           
@@ -265,4 +272,19 @@ def my_logout(request):
 
 def edit_profile(request):
      return render(request,'edit_profile.html');
+
+
+def c_home(request):
+     return render(request,'c_home.html');
+
+
+
+
+@receiver(user_logged_in)
+def user_logged_in_handler(sender, request, user, **kwargs):
+    request.user.last_activity = timezone.now()
+    request.user.save()
+
+
+
 
