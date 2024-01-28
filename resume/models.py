@@ -1,16 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractBaseUser
+     
 
 # Create your models here.
 class User_t(models.Model):
      user_id = models.AutoField(primary_key=True)
-     username = models.CharField(max_length=50)
+     username = models.OneToOneField(User,on_delete=models.CASCADE,to_field='username')
      firstname = models.CharField(max_length=50)
      lastname = models.CharField(max_length=50)
      qualification = models.CharField(max_length=50,default=" ")
      email = models.EmailField(max_length=50)
      password = models.CharField(max_length=50)
+     u_img = models.ImageField(upload_to='images/user/',default="images/user.png")
      
      def __str__(self):
           return self.firstname
@@ -18,9 +19,10 @@ class User_t(models.Model):
 class Company(models.Model):
      c_id = models.AutoField(primary_key=True)
      c_name = models.CharField(max_length=50)
-     c_email = models.EmailField(max_length=50)
+     c_email = models.OneToOneField(User,on_delete=models.CASCADE,to_field='username')
      c_password = models.CharField(max_length=50)
      c_location = models.CharField(max_length=50)
+     c_img = models.ImageField(upload_to='images/compnay/',default="images/company.png")
      
      def __str__(self):
           return self.c_name
@@ -47,7 +49,7 @@ class apply_job(models.Model):
 class templates(models.Model):
      t_id = models.AutoField(primary_key=True)
      t_name = models.CharField(max_length=50)
-     t_img = models.ImageField(upload_to='img',default="")
+     t_img = models.ImageField(upload_to='img',default=" ")
      t_file = models.FileField(upload_to='templates',default="")
      
      def __str__(self):

@@ -1,6 +1,10 @@
+from itertools import count
 from django.utils import timezone
 import smtplib
 import random
+from django.db.models import Count
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from django.shortcuts import render,HttpResponse,redirect
@@ -135,12 +139,10 @@ def email(request):
           if su == '1':
                user1= User.objects.create_user(username=username,email=email,password=password,first_name=firstname,last_name=lastname)
                user1.save()
-               user2 = User_t(username=username,firstname=firstname,lastname=lastname,email=email,password=password,qualification="null")
+               user2 = User_t(username=user1,firstname=firstname,lastname=lastname,email=email,password=password,qualification="null")
                user2.save()
-               
-               return redirect('/login')
-          
-          
+               login(request,user1)
+               return redirect('/')
      return render(request,'email.html',{'otp':otp,'email':email});
 
 
@@ -199,7 +201,7 @@ def company(request):
 
           if Company.objects.filter(c_name=cname).exists() or Company.objects.filter(c_email=cemail).exists():
                messages.error(request,"email or name is already exist plese login or try another email")
-          elif len(cpassword)<=8 :
+          elif len(cpassword)<8 :
                messages.error(request,"password is too short,please enter more than 8 character")
           else:
                otp_ver(cemail)
@@ -220,19 +222,16 @@ def company_login(request):
           cemail = request.POST['cemail']
           cpassword = request.POST['cpassword']
           
-          company_email = Company.objects.all()
-          company_password = Company.objects.all()
-          for i in range(len(company_email)):
-               if cemail == company_email[i].c_email and cpassword == company_password[i].c_password:
-                    request.session['cemail']= cemail
-                    return redirect('c_home')
-               else:
-                    messages.error(request,"email or password is wrong")
-                    return render(request,'company_login.html')
-     
+          user = authenticate(username=cemail,password=cpassword)
           
-     
-     return render(request,'company_login.html',);
+          if user is not None:
+               login(request,user)
+               return redirect('c_home')
+          else:
+               messages.error(request,"email or password is wrong")
+               return render(request,'company_login.html')
+               
+     return render(request,'company_login.html',)
 
 
 def c_email(request):
@@ -247,9 +246,13 @@ def c_email(request):
           su = request.POST.get('pav')
           print(su)
           if su == '1':
-               cdata = company(c_name=cname,c_email=cemail,c_password=cpassword,c_location=city)
-               cdata.save()
-               return redirect('/')
+               user = User.objects.create_user(username=cemail,email=cemail,password=cpassword,first_name=cname)
+               cdata = Company.objects.create(c_name=cname,c_email=user,c_password=cpassword,c_location=city)
+               user.save()
+               cdata.save()  
+               
+               login(request,user) 
+               return redirect('c_home')
           
           
           
@@ -260,7 +263,12 @@ def profile(request):
      return render(request,'profile.html');
 
 def template(request):
-     return render(request,'template.html');
+     return render(request,'template.html',{'template':template});
+          
+
+     
+     
+     
 
 def job(request):
      return render(request,'job.html');
@@ -275,7 +283,30 @@ def edit_profile(request):
 
 
 def c_home(request):
+     
      return render(request,'c_home.html');
+
+def u_admin(request):
+     c_u=User_t.objects.all().count()
+     c_c=Company.objects.all().count()
+     c_t=templates.objects.all().count()
+     c_j=apply_job.objects.all().count()
+     
+     labels = ['Users', 'Companies', 'Jobs', 'Templates']
+     data = [c_u, c_c, c_j, c_t]
+    
+     return render(request,'admin/dashboard.html',{'c_u':c_u,'c_c':c_c,'c_j':c_j,'c_t':c_t,'labels': labels, 'data': data});
+
+def table(request):
+     user = User_t.objects.all()
+     company = Company.objects.all()
+     job = job_vacancy.objects.all()
+     apply = apply_job.objects.all()
+     template = templates.objects.all()
+     
+     return render(request,'admin/tables.html',{'user':user,'company':company,'job':job,'apply':apply,'template':template});
+
+
 
 
 

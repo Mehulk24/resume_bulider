@@ -17,6 +17,40 @@ figure, header, nav, section, article, aside, footer, figcaption {
   clear: both;
 }
 
+.dropbtn {
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 0px 16px  ;
+  text-decoration: none;
+  display: block;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+
 /* ---- .grid-item ---- */
 
 .grid-sizer,
