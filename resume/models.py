@@ -44,13 +44,13 @@ class apply_job(models.Model):
      a_date = models.DateField()
      user_id = models.ForeignKey(User_t,on_delete=models.CASCADE,to_field='user_id')
      jv_id = models.ForeignKey(job_vacancy,on_delete=models.CASCADE,to_field='jv_id')
-     resume = models.FileField(upload_to='resume',default="")
+     resume = models.FileField(upload_to='images/',default="")
      
 class templates(models.Model):
      t_id = models.AutoField(primary_key=True)
      t_name = models.CharField(max_length=50)
-     t_img = models.ImageField(upload_to='img',default=" ")
-     t_file = models.FileField(upload_to='templates',default="")
+     t_img = models.FileField(upload_to='t_img/',default="")
+     t_file = models.FileField(upload_to='templates_pdf/',blank=False)
      
      def __str__(self):
           return self.t_name

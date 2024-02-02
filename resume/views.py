@@ -1,17 +1,16 @@
-from itertools import count
+from pdf2image import convert_from_path
 from django.utils import timezone
+from django.core.files import File
+import os
 import smtplib
 import random
 from django.db.models import Count
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from django.shortcuts import render,HttpResponse,redirect
+from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,logout,login
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import logout
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
 from resume.models import (
@@ -23,6 +22,7 @@ from resume.models import (
      templates
 
 )
+from resume_bulider import settings
 
 # Create your views here.
 def navbar(request):
@@ -263,6 +263,10 @@ def profile(request):
      return render(request,'profile.html');
 
 def template(request):
+     
+     template = templates.objects.all()
+     
+     
      return render(request,'template.html',{'template':template});
           
 
@@ -286,7 +290,7 @@ def c_home(request):
      
      return render(request,'c_home.html');
 
-def u_admin(request):
+def a_dasbord(request):
      c_u=User_t.objects.all().count()
      c_c=Company.objects.all().count()
      c_t=templates.objects.all().count()
@@ -294,7 +298,6 @@ def u_admin(request):
      
      labels = ['Users', 'Companies', 'Jobs', 'Templates']
      data = [c_u, c_c, c_j, c_t]
-    
      return render(request,'admin/dashboard.html',{'c_u':c_u,'c_c':c_c,'c_j':c_j,'c_t':c_t,'labels': labels, 'data': data});
 
 def table(request):
@@ -308,7 +311,49 @@ def table(request):
 
 
 
+def upload_templates(request):
+     if request.method == 'POST':
+          pdf = request.FILES['pdf']
+          f_name = os.path.splitext(pdf.name)[0]
+          template = templates(t_name=f_name,t_file=pdf)
+          template.save()
+          
+          #pdf to image
+          pages = convert_from_path(template.t_file.path)
+          for i,image in enumerate(pages):
+               img_path = f't_img/{f_name}_{i}.png'
+               image.save(os.path.join(settings.MEDIA_ROOT, img_path), 'PNG')
+               template.t_img = img_path
+               template.save()
+               
+          messages.success(request, "Template Upload Successfully")
+                    
+          
+   
+     return render(request,'admin/upload_templates.html');
 
+
+
+def admin_login(request):
+     logout(request)
+     
+     if request.method == 'POST':
+          username = request.POST['username']
+          password = request.POST['password']
+          user = authenticate(request, username=username, password=password)
+          if user is not None:
+               login(request, user)
+               if user.is_staff:
+                    return redirect('a_dasbord')
+               else:
+                    return redirect('home')
+          else:
+               messages.error(request, "Invalid username or password")
+
+  
+     return render(request, 'admin/login.html')     
+     
+          
 
 
 @receiver(user_logged_in)

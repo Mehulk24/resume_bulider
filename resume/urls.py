@@ -17,6 +17,8 @@ urlpatterns = [
     path('logout/',views.my_logout,name='logout'),
     path('edit_profile/',views.edit_profile,name='edit_profile'),   
     path('c_home/',views.c_home,name='c_home'),
-    path('u_admin/',views.u_admin,name='u_admin'),
+    path('u_admin/',views.admin_login,name='u_admin'),
     path('table/',views.table,name='table'),
+    path('upload/',views.upload_templates,name='upload'),
+    path('a_dasbord/',views.a_dasbord,name='a_dasbord'),
 ]
