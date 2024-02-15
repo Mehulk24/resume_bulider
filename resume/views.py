@@ -1,14 +1,20 @@
-from pdf2image import convert_from_path
 from django.utils import timezone
-from django.core.files import File
 import os
 import smtplib
+from docx2pdf import convert
+from PIL import Image
+from io import BytesIO
+from django.core.files import File
 import random
+from django.utils import timezone
+import pdf2image
+from docx2pdf import convert
 from django.db.models import Count
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import subprocess
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,logout,login
+from django.contrib.auth import authenticate,logout,login   
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -22,6 +28,8 @@ from resume.models import (
      templates
 
 )
+import re
+from docx import Document
 from resume_bulider import settings
 
 # Create your views here.
@@ -260,7 +268,43 @@ def c_email(request):
 
 
 def profile(request):
-     return render(request,'profile.html');
+     user_t = User_t.objects.get(username=request.user)
+     print(request.user)
+     print(User_t.u_img)
+     con={
+          'user_t':user_t
+     }
+     return render(request,'profile.html',con);
+
+def edit_profile(request):
+     user_t = User_t.objects.get(username=request.user)
+     if request.method == 'POST':
+          if 'u_img' in request.FILES:
+               u_img = request.FILES['u_img']
+          else:
+               u_img = user_t.u_img
+          firstname = request.POST['first_name']
+          lastname = request.POST['lname']
+          profession = request.POST['profession']
+          website = request.POST['website']
+          instrgram = request.POST['instrgram']
+          linkdin = request.POST['linkdin']
+          user = User.objects.get(username=request.user)
+          user_t = User_t.objects.get(username=request.user)
+          user.first_name = firstname
+          user.last_name = lastname
+          user.save()
+          user_t.firstname = firstname
+          user_t.lastname = lastname
+          user_t.profession = profession
+          user_t.website = website
+          user_t.instrgram = instrgram
+          user_t.linkdin = linkdin
+          user_t.u_img = u_img
+          user_t.save()
+          messages.success(request, "Profile Updated Successfully")
+          return redirect('profile')
+     return render(request,'edit_profile.html',{'user_t':user_t});
 
 def template(request):
      
@@ -270,20 +314,58 @@ def template(request):
      return render(request,'template.html',{'template':template});
           
 
-     
-     
+def cerate_resume(request,t_id):
      
 
+     def myreplace(document, replacements):
+          for p in document.paragraphs:
+               for t, r in replacements:
+                    p.text = re.sub(t, r, p.text)
+
+          for table in document.tables:
+               for row in table.rows:
+                    for cell in row.cells:
+                         for t, r in replacements:
+                              cell.text = re.sub(t, r, cell.text)
+
+     replacements = [
+     ("JOB TITLE", "Web Development"),
+     ("INSTITUTION NAME", "GLS UNIVERSITY"),
+     # Add more tuples here for additional replacements
+     ]
+
+     file = "resume.docx"
+     document = Document(file)
+     myreplace(document, replacements)
+     document.save("demo1.docx")
+     print("done")
+     
+     
+     return render(request,'cerate_resume.html');
+
 def job(request):
-     return render(request,'job.html');
+     
+     
+     job = job_vacancy.objects.all()
+     
+     j={
+          'job':job,
+     }
+    
+     return render(request,'job.html',j);
+
+def job_details(request,jv_id):
+     job = job_vacancy.objects.filter(jv_id=jv_id)
+     j={
+          'job':job,
+     }
+     return render(request,'jobs_details.html',j);
 
 def my_logout(request):
     logout(request)
     
     return redirect('index')
 
-def edit_profile(request):
-     return render(request,'edit_profile.html');
 
 
 def c_home(request):
@@ -309,7 +391,49 @@ def table(request):
      
      return render(request,'admin/tables.html',{'user':user,'company':company,'job':job,'apply':apply,'template':template});
 
+def u_deletes(request,user_id=None):
+     if user_id != None:
+          user = User_t.objects.get(user_id=user_id)
+          user.delete()
+          return redirect("table")
 
+          
+     else:
+          return render(request,"admin/table.html")
+     
+def c_deletes(request,c_id=None):
+     
+     if c_id != None:
+          company = Company.objects.get(c_id=c_id)
+          company.delete()
+          return redirect("table")
+
+          
+     else:
+          return render(request,"admin/table.html")
+     
+def j_deletes(request,jv_id=None):
+     if jv_id != None:
+          job = job_vacancy.objects.get(jv_id=jv_id)
+          job.delete()
+          return redirect("table")
+
+     else:
+          return render(request,"admin/table.html")
+     
+def t_deletes(request,t_id=None):
+     if t_id != None:     
+          template = templates.objects.get(t_id=t_id)
+          template.delete()
+          return redirect("table")
+          
+     else:
+          return render(request,"admin/table.html")
+     
+     
+     
+     
+     
 
 def upload_templates(request):
      if request.method == 'POST':
@@ -319,12 +443,24 @@ def upload_templates(request):
           template.save()
           
           #pdf to image
-          pages = convert_from_path(template.t_file.path)
-          for i,image in enumerate(pages):
-               img_path = f't_img/{f_name}_{i}.png'
-               image.save(os.path.join(settings.MEDIA_ROOT, img_path), 'PNG')
-               template.t_img = img_path
-               template.save()
+          with open('temp.docx', 'wb+') as destination:
+            for chunk in pdf.chunks():
+                destination.write(chunk)
+
+          subprocess.run(['unoconv', '-f', 'pdf', 'temp.docx'])
+
+          images = pdf2image.convert_from_path('temp.pdf')
+
+          image_io = BytesIO()
+          images[0].save(image_io, format='PNG')
+
+          my_model = templates.objects.get(t_name=f_name)  # replace with your actual model
+          my_model.t_img.save(f'{f_name}.png', File(image_io), save=True)
+          
+          os.remove('temp.docx')
+          os.remove('temp.pdf')
+
+       
                
           messages.success(request, "Template Upload Successfully")
                     
@@ -353,6 +489,34 @@ def admin_login(request):
   
      return render(request, 'admin/login.html')     
      
+     
+def post_job(request):
+     if request.POST:
+          job_title = request.POST['title']
+          job_category = request.POST['category']
+          time = request.POST['time']
+          job_location = request.POST['location']
+          city = request.POST['city']
+          pin = request.POST['pin']
+          job_salary = request.POST['salary']
+          experience = request.POST['experience']
+          job_function = request.POST['function']
+          job_summary = request.POST['summary']
+          job_key = request.POST['key']
+          job_requirements = request.POST['requirements']
+          c_id = Company.objects.get(c_email=request.user)
+          
+          print(job_title, job_category, job_location, job_salary, experience, job_function, job_summary, job_key, job_requirements)
+          jv = job_vacancy.objects.create(jv_name=job_title,jv_category=job_category,jv_time=time,jv_location=job_location,jv_city=city,jv_pincode=pin,jv_salary=job_salary,jv_exprince=experience,jv_function=job_function,jv_description=job_summary,jv_key_responsibilites=job_key,jv_requirements=job_requirements,c_id=c_id)
+          jv.save()
+          
+          con={
+               "job": "job post successfully"
+          }
+          
+          return render(request,'post_job.html',con)
+          
+     return render(request,'post_job.html')
           
 
 

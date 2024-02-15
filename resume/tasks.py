@@ -5,8 +5,7 @@ from django.contrib.auth import logout
 from django.utils import timezone
 from django.contrib.sessions.models import Session
 from requests import request
-from timezone import timezone
-
+from django.utils import timezone
 @shared_task
 def check_user_activity():
     # Set the inactivity timeout to 1 hour (3600 seconds)

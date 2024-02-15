@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/post_job.css' %} ">
+        <title>Document</title>
+    </head>
+    <body>
+        <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="index.html" class="logo">
+                      <img src="{% static 'images/Resume.png' %}">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                      <li class="scroll-to-section"><a href="{% url 'c_home' %}" >Home</a></li>
+                      <li class="scroll-to-section"><a href="{% url 'post_job' %}" class="active">Post Jobs</a></li> 
+                      <li class="scroll-to-section"><a href="#services">Services</a></li>
+                      <li class="scroll-to-section"><a href="#portfolio">Compnays</a></li>
+                      <li class="scroll-to-section"><a href="#subscribe">Find Your Post</a></li> 
+                      <li class="scroll-to-section">
+                        <div class="dropdown">
+                          <a href class="dropbtn">{{ user.get_full_name }}</a>
+                          <div class="dropdown-content">
+                            <a href="{% url 'profile' %}">My Account</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                          </div>
+                        </div>
+                      </li> 
+                      <li class="scroll-to-section"><div class="main-red-button-hover"><a href="#contact">Contact Us</a></div></li> 
+                    </ul>        
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </header>
+    
+    <div class="title" style="margin-top:20px;">
+        <h1>POST YOUR JOBS</h1>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+    <div class="mainform">
+        <div class="main1">
+            <div class="form1">
+                <div class="part1">
+            
+                        <div class="heading">
+                            <h2>Short Info</h2>
+                        </div>
+                        <div class="div">
+                            <label>Title for your job</label><br>
+                            <input type="text" name="title" id="title1" placeholder="ex, Human Resource Manager" class="text">
+                        </div>
+                        <!-- <br><br> -->
+                        <div class="div">
+                            <label>Job Category</label><br>
+                            <input type="text" name="category" id="category1" placeholder="Select a category" class="text">
+                        </div>
+                        <!-- <br><br> -->
+                        <div class="div">
+                            <input type="radio" name="time" value="Full Time" id="cat1">Full Time
+                            <input type="radio" name="time" value="Part Time" id="cat2">Part Time
+                            <input type="radio" name="time" value="Freelancer" id="cat3">Freelance
+                        </div>
+                        <!--    <br> -->
+                        <div class="div">
+                            <label>Job Location</label>
+                            <input type="text" name="location" id="location1" placeholder="Type your address" class="text">
+                        </div>
+                        <!-- <br> -->
+                        <div class="div">
+                            <input type="text" name="city" id="city1" placeholder="City" class="text1">
+                            <input type="text" name="pin" id="pin1" placeholder="Postal Code" class="text1">
+                        </div>
+                        <!-- <br><br> -->
+                        <div class="div">
+                            <label>Salary Information</label><br>
+                            <input type="text" name="salary" id="salary1" class="text">
+                        </div>
+                        <!-- <br><br> -->
+                        <!-- <br><br> -->
+                        <div class="div">
+                            <div class="div">
+                                <label class="level">Experience Level</label>
+                            </div>
+        
+                            <input type="radio" name="experience" value="Fresher" id="level1">Fresher
+                            <input type="radio" name="experience" value="1 Year" id="level2">1 Year
+                            <input type="radio" name="experience" value="2-3 Year" id="level3">2-3 Years
+                        </div>
+                        <!-- <br><br> -->
+                        <div class="div">
+                            <label>Job Function</label><br>
+                            <input type="text" name="function" id="fun1" placeholder="ex, Python Devloper" class="text">
+                        </div>
+                        <!-- <br><br> -->
+            
+                </div>
+                <div class="contant">
+                    <ul>
+                        <h4>Quick Rules</h4>
+        
+                        <p> Posting an ad on Seeker.com is free! However, all post must follow our rules:</p>
+        
+                        <li> Make sure you post in the correct category.</li>
+        
+                        <li>Do not post the same ad more than once or repost an ad within 48 hours.</li>
+        
+                        <li>Do not upload pictures with watermarks.</li>
+        
+                        <li>Do not post ads containing multiple items unless it's a package deal.</li>
+        
+                        <li>Do not put your email or phone numbers in the title or description.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form2">
+            
+                <div class="heading">
+                    <h2>Job Discription</h2>
+                </div>
+                <div class="div">
+                    <label>Job Summary:</label><br>
+                    <textarea name="summary" id="" cols="60" rows="10" placeholder="ex, Human Resource Manager"></textarea>
+                </div>
+                <!-- <br> -->
+                <div class="div">
+                    <label>Key Responsibilites:</label><br>
+                    <textarea name="key" id="" cols="60" rows="10" placeholder="ex, Human Resource Manager"></textarea>
+                </div>
+                <!-- <br> -->
+                <div class="div">
+                    <label>Minimum Requirements: </label><br>
+                    <textarea name="requirements" id="" cols="60" rows="10" placeholder="ex, Human Resource Manager"></textarea>
+                </div>
+                <!-- <br> -->
+    
+                <button>Post</button>
+            </form>
+        </div>
+        {% include 'footer.html' %}
+    </div>
+    
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,7 +47,7 @@
             border: 1px solid black;
             border-radius: 30px;
             margin-right: 250px;
-            margin-top: 30px;
+            margin-top: 159px;
             margin-left: 320px;
             font-size: 20px;
         }
@@ -59,62 +59,18 @@
 
 <body>
      {% include 'navbar.html'%}
-    <!-- 6 -->
-    <div class="sale">
-        <h3>Sales Executive - Modern Trade</h3>
-        <h3>Cargill</h3>
-        <div class="icons">
-            <div class="icon1">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <p>1-5 yr</p>
-            </div>
-            <div class="icon1"> <i class="fa-solid fa-indian-rupee-sign">
-                </i>
-                <p>23000-30000</p>
-
-            </div>
-            <div class="icon1">
-                <i class="fa-solid fa-location-dot">
-                </i>
-                <p>Vijayawada,Gunntur...</p>
-            </div>
-        </div>
-
-        <div class="icon2">
-            <i class="fa-solid fa-file">
-            </i>
-            <p>Handle complex clerical, administrative, technical or <br>customer support issues under min...</p>
-
-        </div>
-        <h5>20 days ago</h5>
-
-    </div>
-
-    <!-- 7 -->
-
-
-
+     
+    {% for i in job %}
     <div class="job">
         <div class="job1">
             <h5>Job Desscription</h5>
-            <p>The sales Executive - Modern trade will spport the staff face to face and remote selling to new
-                and existing cusstomers,selling directly or inderctly through various sales channels
+            <p>{{i.jv_name}}
             </p>
-            <p>In this role you will help assess customer needs and suggest appropriate products,services and
-                solution, with guidance</p>
-        </div>
+            <p>{{i.jv_category}}</p>
+            </div>
         <div class="key">
             <h5>Key Accountabilities</h5>
-            <p>Travel through assigned area to call on accounts</p>
-            <p>Check stock and inventory: obtain product orders</p>
-            <p>Note number of item delivered to each account to maintain accurate product inventory</p>
-            <p>Review exposure and placement of items on shelves</p>
-            <p>Build rapport with store management to maintain relationships</p>
-            <p>Handle complex clerical,administrative,technical or customer support issues under minimal
-                supervision,while escalating
-                only the most complex issues to appropriate staff
-            </p>
-            <p>Other duties as assigned</p>
+            <p>{{i.jv_description}}</p>
         </div>
 
         <div class="qua">
@@ -126,18 +82,17 @@
         </div>
 
         <div class="role">
-            <p> Role : Retail Sales</p>
-            <p>Industy type : Food Processing</p>
-            <p>Department : Sales & Bussiness Development</p>
-            <p>Employment Type : Full Time,Perment</p>
+            <p>Role : {{i.jv_category}}</p>
+            <p>Employment Type : {{i.jv_time}}</p>
             <p>Role Category : Retail & B2C Sales</p>
             <p>Education:</p>
             <p>UG:Any Graduate</p>
             <p>PG:Any Post Graduate</p>
             <p>Key Skills : B.Com,M.Com</p>
         </div>
-
+        
     </div>
+    {% endfor %}
     <!-- 8 -->
     <div class="sale">
         <h3>Sales Executive - Modern Trade</h3>
@@ -148,9 +103,9 @@
                 <p>1-5 yr</p>
             </div>
             <div class="icon1"> <i class="fa-solid fa-indian-rupee-sign">
-                </i>
-                <p>23000-30000</p>
-
+            </i>
+            <p>23000-30000</p>
+            
             </div>
             <div class="icon1">
                 <i class="fa-solid fa-location-dot">

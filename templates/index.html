@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -11,15 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
     <title>Home</title>
-  
-    {% load static %}
+    
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    {% comment %} <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"> {% endcomment %}
   
   
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{% static 'css/fontawesome.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/templat.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/templa.css' %} ">
     <link rel="stylesheet" href="{% static 'css/animated.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.css' %} ">
   </head
@@ -29,8 +29,122 @@
        <!-- ***** Header Area Start ***** -->
       {% include 'navbar.html' %}
        <!-- ***** Header Area End ***** -->
-       
-       <div class="main-banner" id="top">
+       <style>
+        
+.main-banner1 {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding: 345px 0px 130px 0px;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-banner1:after {
+  content: '';
+  background-image: url(static/images/banner-left-image.png);
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  top: 100px;
+  width: 267px;
+  height: 532px;
+}
+
+.main-banner1:before {
+  content: '';
+  background-image: url(static/images/banner-right-image.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  right: 0;
+  top: 100px;
+  width: 819px;
+  height: 674px;
+}
+
+.main-banner1 .item {
+  margin-right: 45px;
+}
+
+.main-banner1 .item h6 {
+  text-transform: uppercase;
+  font-size: 18px;
+  color: #ff695f;
+  margin-bottom: 15px;
+}
+
+.main-banner1 .item h2 {
+  font-size: 50px;
+  font-weight: 700;
+  color: #2a2a2a;
+  line-height: 72px;
+}
+
+.main-banner1 .item h2 em {
+  color: #03a4ed;
+  font-style: normal;
+}
+
+.main-banner1 .item h2 span {
+  color: #ff695f;
+}
+
+.main-banner1 .item p {
+  margin: 20px 0px;
+}
+
+.main-banner1 .item .down-buttons {
+  display: inline-flex;
+}
+
+.main-banner1 .item .down-buttons .call-button i {
+  margin-right: 5px;
+  width: 46px;
+  height: 46px;
+  display: inline-block;
+  text-align: center;
+  line-height: 46px;
+  border-radius: 50%;
+  background: rgb(255,104,95);
+  background: linear-gradient(105deg, rgba(255,104,95,1) 0%, rgba(255,144,104,1) 100%);
+  color: #fff;
+  font-size: 20px;
+}
+
+.main-banner1 .item .down-buttons .call-button a {
+  color: #ff695f;
+  font-size: 15px;
+  font-weight: 500;
+  margin-left: 30px;
+}
+
+.main-banner1 .owl-dots {
+  margin-top: 60px;
+  counter-reset: dots;
+}
+
+.main-banner1 .owl-dot:before {
+  counter-increment:dots;
+  content: counter(dots);
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 10px;
+  color: #2a2a2a;
+  width: 15px;
+  display: inline-block;
+  text-align: center;
+  border-bottom: 3px solid transparent;
+  transition: all .5s;
+}
+
+.main-banner1 .active:before {
+  color: #ff685f;
+  border-bottom: 3px solid #ff685f;
+}
+
+       </style>
+       <div class="main-banner1" id="top">
          <div class="container">
            <div class="row">
              <div class="col-lg-12">
@@ -302,26 +416,7 @@
        </div>
      
 
-       <div id="subscribe" class="subscribe">
-         <div class="container">
-           <div class="row">
-             <div class="col-lg-12">
-               <div class="inner-content">
-                 <div class="row">
-                   <div class="col-lg-10 offset-lg-1">
-                     <h2>Know Your Website SEO Score by Email</h2>
-                     <form id="subscribe" action="" method="get">
-                       <input type="text" name="website" id="website" placeholder="Your Website URL" required="">
-                       <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
-                       <button type="submit" id="form-submit" class="main-button ">Subscribe</button>
-                     </form>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
+      
      
       
      

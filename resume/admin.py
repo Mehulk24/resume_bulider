@@ -1,5 +1,5 @@
 from django.contrib import admin
-from resume.models import User_t,Company,job_vacancy,apply_job,templates
+from resume.models import *
 
 # Register your models here.
 
@@ -8,5 +8,6 @@ admin.site.register(Company)
 admin.site.register(job_vacancy)
 admin.site.register(apply_job)
 admin.site.register(templates)
+
 
 

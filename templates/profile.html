@@ -17,7 +17,7 @@
       <div class="row">
           <div class="col-md-4">
               <div class="profile-img">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+                  <img style="border-radius: 50%; " src="{{ user_t.u_img.url }}" alt=""/>
               </div>
           </div>
           <div class="col-md-6">
@@ -44,15 +44,18 @@
           <div class="col-md-4">
               <div class="profile-work">
                   <p>WORK LINK</p>
-                  <h6>Website Link : </h6><a href=""></a>
-                  <h6>Instrgram : </h6 href=""><a></a>
-                  <h6>Linkdin : </h6><a href=""></a>
-                  <p>SKILLS</p>
-                  <h6>Web Designer</h6>
-                  <h6>Web Developer</h6>
-                  <h6>WordPress</h6>
-                  <h6>WooCommerce</h6>
-                  <h6>PHP, .Net</h6>
+                   
+                 
+                  <h6>Website Link :  <a href="{{ user_t.website }}"> {{ user_t.website }}</a></h6>
+                  <h6>Instrgram :  <a href="{{user_t.instrgram}}"> {{user_t.instrgram}}</a></h6>
+                    <h6>Linkdin : <a href="{{user_t.linkdin}}"> {{user_t.linkdin}}</a></h6>
+                  
+                  {% comment %} <p>SKILLS</p>
+                  
+                  {% for i in skiil %}
+                    <h6>{{i}}</h6>
+                  {% endfor %}  {% endcomment %}
+                    
               </div>
           </div>
           <div class="col-md-8">
@@ -91,19 +94,11 @@
                                   </div>
                               </div>
                               <div class="row">
-                                <div class="col-md-6">
-                                    <label>Phone Number</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{user.email}}</p>
-                                </div>
-                            </div>
-                              <div class="row">
                                   <div class="col-md-6">
                                       <label>Profession</label>
                                   </div>
                                   <div class="col-md-6">
-                                      <p></p>
+                                      <p>{{user_t.profession}}</p>
                                   </div>
                               </div>
                   </div>

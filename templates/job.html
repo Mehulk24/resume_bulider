@@ -31,156 +31,41 @@
           </div>
         </div>
     </div>
-    <!-- 1 -->
+    
+    {% for i in job %}
+        
+    <a href="{% url 'job_details' i.jv_id %}">
     <div class="sale">
-        <h3>Sales Executive - Modern Trade Cargill</h3>
+        <h3>{{i.jv_name}}</h3>
         <div class="icons">
             <div class="icon1">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <p>1-5 yr</p>
+                <p>{{ i.jv_exprince }}</p>
             </div>
             <div class="icon1"> <i class="fa-solid fa-indian-rupee-sign">
             </i>
-            <p>23000-30000</p>
+            <p>{{i.jv_salary}}</p>
             
         </div>
-            <div class="icon1">
-                <i class="fa-solid fa-location-dot">
-                </i>
-                <p>Vijayawada,Gunntur...</p>
-            </div>
-        </div>
-
-        <div class="icon2">
-            <i class="fa-solid fa-file">
+        <div class="icon1">
+            <i class="fa-solid fa-location-dot">
             </i>
-            <p>Handle complex clerical, administrative, technical or customer support issues under min...</p>
-
+            <p>{{i.jv_location}}</p>
         </div>
-        <h5>20 days ago</h5>
-
     </div>
-<!-- 2 -->
-
-    <div class="sale">
-        <h3>Sales Executive - Modern Trade</h3>
-        <h3>Cargill</h3>
-        <div class="icons">
-            <div class="icon1">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <p>1-5 yr</p>
-            </div>
-            <div class="icon1"> <i class="fa-solid fa-indian-rupee-sign">
-                </i>
-                <p>23000-30000</p>
-
-            </div>
-            <div class="icon1">
-                <i class="fa-solid fa-location-dot">
-                </i>
-                <p>Vijayawada,Gunntur...</p>
-            </div>
-        </div>
-
-        <div class="icon2">
-            <i class="fa-solid fa-file">
-            </i>
-            <p>Handle complex clerical, administrative, technical or <br>customer support issues under min...</p>
-
-        </div>
-        <h5>20 days ago</h5>
-
+    
+    <div class="icon2">
+        <i class="fa-solid fa-file">
+        </i>
+        <p>{{ i.jv_description|slice:":90" }}...</p>
+        
     </div>
-<!-- 3 -->
-    <div class="sale">
-        <h3>Sales Executive - Modern Trade</h3>
-        <h3>Cargill</h3>
-        <div class="icons">
-            <div class="icon1">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <p>1-5 yr</p>
-            </div>
-            <div class="icon1"> <i class="fa-solid fa-indian-rupee-sign">
-                </i>
-                <p>23000-30000</p>
+    <h5> Post date {{ i.jv_date }} </h5>
+    
+</div>
+</a>
+  {% endfor %} 
 
-            </div>
-            <div class="icon1">
-                <i class="fa-solid fa-location-dot">
-                </i>
-                <p>Vijayawada,Gunntur...</p>
-            </div>
-        </div>
-
-        <div class="icon2">
-            <i class="fa-solid fa-file">
-            </i>
-            <p>Handle complex clerical, administrative, technical or <br>customer support issues under min...</p>
-
-        </div>
-        <h5>20 days ago</h5>
-
-    </div>
-<!-- 4 -->
-    <div class="sale">
-        <h3>Sales Executive - Modern Trade</h3>
-        <h3>Cargill</h3>
-        <div class="icons">
-            <div class="icon1">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <p>1-5 yr</p>
-            </div>
-            <div class="icon1"> <i class="fa-solid fa-indian-rupee-sign">
-                </i>
-                <p>23000-30000</p>
-
-            </div>
-            <div class="icon1">
-                <i class="fa-solid fa-location-dot">
-                </i>
-                <p>Vijayawada,Gunntur...</p>
-            </div>
-        </div>
-
-        <div class="icon2">
-            <i class="fa-solid fa-file">
-            </i>
-            <p>Handle complex clerical, administrative, technical or <br>customer support issues under min...</p>
-
-        </div>
-        <h5>20 days ago</h5>
-
-    </div>
-    <!-- 5 -->
-    <div class="sale">
-        <h3>Sales Executive - Modern Trade</h3>
-        <h3>Cargill</h3>
-        <div class="icons">
-            <div class="icon1">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <p>1-5 yr</p>
-            </div>
-            <div class="icon1"> <i class="fa-solid fa-indian-rupee-sign">
-                </i>
-                <p>23000-30000</p>
-
-            </div>
-            <div class="icon1">
-                <i class="fa-solid fa-location-dot">
-                </i>
-                <p>Vijayawada,Gunntur...</p>
-            </div>
-        </div>
-
-        <div class="icon2">
-            <i class="fa-solid fa-file">
-            </i>
-            <p>Handle complex clerical, administrative, technical or customer support issues under min...</p>
-
-        </div>
-        <h5>20 days ago</h5>
-
-    </div>
     {% include 'footer.html'%}
 </body>
 
