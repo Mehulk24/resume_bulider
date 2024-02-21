@@ -28,6 +28,9 @@ class Company(models.Model):
      c_email = models.OneToOneField(User,on_delete=models.CASCADE,to_field='username')
      c_password = models.CharField(max_length=50)
      c_location = models.CharField(max_length=50)
+     website = models.CharField(max_length=100,default="")
+     instrgram = models.CharField(max_length=100,default="")
+     linkdin = models.CharField(max_length=100,default="")
      c_img = models.ImageField(upload_to='images/compnay/',default="images/company.png")
      
      def __str__(self):
@@ -52,10 +55,16 @@ class job_vacancy(models.Model):
 
 class apply_job(models.Model):
      aj_id = models.AutoField(primary_key=True)
-     a_date = models.DateField(null=True, blank=True)
      user_id = models.ForeignKey(User_t,on_delete=models.CASCADE,to_field='user_id')
      jv_id = models.ForeignKey(job_vacancy,on_delete=models.CASCADE,to_field='jv_id')
-     resume = models.FileField(upload_to='images/',default="")
+     c_id = models.ForeignKey(Company,on_delete=models.CASCADE,to_field='c_id')
+     fname = models.CharField(max_length=50,default="")
+     email = models.EmailField(max_length=50,default="")
+     address = models.CharField(max_length=500,default="")
+     city = models.CharField(max_length=50,default="")
+     zip = models.CharField(max_length=50,default="")
+     phone = models.CharField(max_length=50,default="")
+     resume = models.FileField(upload_to='images/resume',default="")
      
 class templates(models.Model):
      t_id = models.AutoField(primary_key=True)

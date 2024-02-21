@@ -21,20 +21,10 @@
         <h5>the perfect career match!</h5>
     </div>
 
-    <div id="services" class="our-services section">
-        <div class="services-right-dec">
-          <img src="{% static 'images/services-right-dec.png' %}" alt="">
-        </div>
-        <div class="container">
-          <div class="services-left-dec">
-            <img src="{% static 'images/services-left-dec.png' %}" alt="">
-          </div>
-        </div>
-    </div>
+   
     
     {% for i in job %}
         
-    <a href="{% url 'job_details' i.jv_id %}">
     <div class="sale">
         <h3>{{i.jv_name}}</h3>
         <div class="icons">
@@ -60,10 +50,12 @@
         <p>{{ i.jv_description|slice:":90" }}...</p>
         
     </div>
-    <h5> Post date {{ i.jv_date }} </h5>
+    <br>
+    <a  href="{% url 'job_details' i.jv_id %}">
+        <button class=" btn btn-primary"> View details </button>
+        </a>
     
 </div>
-</a>
   {% endfor %} 
 
     {% include 'footer.html'%}

@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.http import FileResponse
 import os
 import smtplib
 from docx2pdf import convert
@@ -38,6 +39,7 @@ def navbar(request):
 
 def index(request):
      return render(request,'index.html');
+     
 
 
 def hlogin(request):
@@ -48,7 +50,7 @@ def hlogin(request):
 
           if user is not None:
                login(request,user)
-               return redirect('index')
+               return redirect('home')
           else:
                messages.error(request,"Invalid username or password")
                return redirect('login')
@@ -269,8 +271,7 @@ def c_email(request):
 
 def profile(request):
      user_t = User_t.objects.get(username=request.user)
-     print(request.user)
-     print(User_t.u_img)
+     
      con={
           'user_t':user_t
      }
@@ -364,13 +365,17 @@ def job_details(request,jv_id):
 def my_logout(request):
     logout(request)
     
-    return redirect('index')
+    return redirect('home')
 
 
 
 def c_home(request):
+     c_id = Company.objects.all()
+     con={
+          "c_id":c_id
+     }
      
-     return render(request,'c_home.html');
+     return render(request,'c_home.html',con);
 
 def a_dasbord(request):
      c_u=User_t.objects.all().count()
@@ -517,8 +522,91 @@ def post_job(request):
           return render(request,'post_job.html',con)
           
      return render(request,'post_job.html')
-          
 
+def c_profile(request):
+     c_id = Company.objects.get(c_email=request.user)
+     con={
+          'c_id':c_id
+     }
+     return render(request,'c_profile.html',con)
+          
+def c_edit_profile(request):
+     try:
+          c_id = Company.objects.get(c_email=request.user)
+          if request.method == 'POST':
+               if 'c_img' in request.FILES:
+                    c_img = request.FILES['c_img']
+               else:
+                    c_img = c_id.c_img
+               c_name = request.POST['c_name']
+               website = request.POST['website']
+               instrgram = request.POST['instrgram']
+               linkdin = request.POST['linkdin']
+               user = User.objects.get(username=request.user)
+               c_id = Company.objects.get(c_email=request.user)
+               c_id.c_name = c_name
+               c_id.c_img = c_img
+               c_id.website = website
+               c_id.instrgram = instrgram
+               c_id.linkdin = linkdin
+               c_id.save()
+               user.first_name = c_name
+               user.save()
+               messages.success(request, "Profile Updated Successfully")
+               return redirect('c_profile')
+     except:
+          return redirect('c_home')
+     return render(request,'c_edit_profile.html',{'c_id':c_id});
+
+def apply(request,jv_id):
+     try:
+          user = User_t.objects.get(username=request.user)
+          jv = job_vacancy.objects.get(jv_id=jv_id)
+          if request.method == 'POST':
+               fname = request.POST['fullname']
+               email = request.POST['email']
+               address = request.POST['address']
+               city = request.POST['city']
+               zip = request.POST['zip']
+               phone = request.POST['phone']
+               resume = request.FILES['resume']
+               apply = apply_job.objects.create(user_id=user,jv_id=jv,c_id=jv.c_id,fname=fname,email=email,address=address,city=city,zip=zip,phone=phone,resume=resume)
+               apply.save()
+               messages.success(request, "Apply Successfully")
+               return redirect('job')
+     except:
+          return redirect('home')
+     
+     
+     return render(request,'job_apply.html');
+
+
+def c_app(request):
+     try:
+          company = Company.objects.get(c_email=request.user)
+          job = apply_job.objects.filter(c_id=company)
+          
+          con={
+               'job':job,
+              
+          }
+          return render(request,'c_app.html',con);
+     except:
+          con={
+               'error': "Empty...!"
+          
+          }
+          return render(request,'c_app.html',con);
+     
+def download(request,aj_id):
+     try:
+          apply = apply_job.objects.get(aj_id=aj_id)
+          file = apply.resume.path
+          return FileResponse(open(file, 'rb'), as_attachment=True, filename=f'{apply.fname}.pdf')
+     except:
+          return redirect('c_app')
+     
+          
 
 @receiver(user_logged_in)
 def user_logged_in_handler(sender, request, user, **kwargs):

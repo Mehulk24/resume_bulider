@@ -6,6 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{% static 'css/post_job.css' %} ">
         <title>Document</title>
+        {% include 'navbar.html' %}
+        <link rel="stylesheet" href="{% static 'css/fontawesome.css' %} ">
+        <link rel="stylesheet" href="{% static 'css/templa.css' %} ">
+        <link rel="stylesheet" href="{% static 'css/animated.css' %}">
+        <link rel="stylesheet" href="{% static 'css/owl.css' %} ">
+      </head
     </head>
     <body>
         <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
@@ -20,16 +26,16 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                      <li class="scroll-to-section"><a href="{% url 'c_home' %}" >Home</a></li>
-                      <li class="scroll-to-section"><a href="{% url 'post_job' %}" class="active">Post Jobs</a></li> 
-                      <li class="scroll-to-section"><a href="#services">Services</a></li>
-                      <li class="scroll-to-section"><a href="#portfolio">Compnays</a></li>
-                      <li class="scroll-to-section"><a href="#subscribe">Find Your Post</a></li> 
-                      <li class="scroll-to-section">
+                        <li class="scroll-to-section"><a href="{% url 'c_home' %}" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'post_job' %}">Post Jobs</a></li> 
+                        <li class="scroll-to-section"><a href="{% url 'c_home' %}#services">Services</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'c_home' %}#portfolio">Compnays</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'c_home' %}#subscribe">Find Your Post</a></li> 
+                        <li class="scroll-to-section">
                         <div class="dropdown">
                           <a href class="dropbtn">{{ user.get_full_name }}</a>
                           <div class="dropdown-content">
-                            <a href="{% url 'profile' %}">My Account</a>
+                            <a href="{% url 'c_profile' %}">My Account</a>
                             <a href="{% url 'logout' %}">Logout</a>
                           </div>
                         </div>

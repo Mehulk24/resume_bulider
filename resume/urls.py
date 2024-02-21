@@ -4,7 +4,7 @@ from resume import views
 
 
 urlpatterns = [
-    path('',views.index,name='index'),
+    path('',views.index,name='home'),
     path('login/',views.hlogin,name='login'),
     path('sing_up/',views.sing_up,name='sing_up'),
     path('email/',views.email,name='email'),
@@ -27,5 +27,12 @@ urlpatterns = [
     path('j_deletes/<int:jv_id>/',views.j_deletes,name='j_deletes'),
     path('t_deletes/<int:t_id>/',views.t_deletes,name='t_deletes'),
     path('post_job',views.post_job,name='post_job'),
+    path('c_profile',views.c_profile,name='c_profile'),
+    path('c_edit_profile/',views.c_edit_profile,name='c_edit_profile'),
+    path('apply/<int:jv_id>/',views.apply,name='apply'),
+    path('c_app/',views.c_app,name='c_app'),
+    path('download/<int:aj_id>',views.download,name='download'),
+    
+    
     
 ]
