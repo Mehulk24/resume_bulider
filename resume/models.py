@@ -16,6 +16,9 @@ class User_t(models.Model):
      linkdin = models.CharField(max_length=100,default="")
      profession = models.CharField(max_length=100,default="")
      u_img = models.ImageField(upload_to='images/user/',default="images/user.png")
+     u_resume = models.FileField(upload_to='u_resume/',default="")
+     r_pdf = models.FileField(upload_to='r_pdf/',default="")
+     r_img = models.ImageField(upload_to='img_r/',default="")
      
      def __str__(self):
           return self.firstname
@@ -69,7 +72,7 @@ class apply_job(models.Model):
 class templates(models.Model):
      t_id = models.AutoField(primary_key=True)
      t_name = models.CharField(max_length=50)
-     t_img = models.FileField(upload_to='t_img/',default="")
+     t_img = models.FileField(upload_to='t_img/',default="")     
      t_file = models.FileField(upload_to='templates_pdf/',blank=False)
      
      def __str__(self):

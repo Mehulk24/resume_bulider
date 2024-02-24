@@ -61,11 +61,6 @@
 
         }
 
-        .img {
-            width: 80%;
-            overflow: hidden;
-        }
-
         .image img {
             height: 54vh;
             margin: 50px 50px;
@@ -75,32 +70,26 @@
 </head>
 <body>
     {% include 'navbar.html'%}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <div class="job">
-        <h1>Job-winning simple resume templates</h1>
-        <p>Each template is expertly designed and follows the exact "resume rules" hiring managers
-
-            <br>
-            look for.Stand out and get hired faster with field-tested resume templates.
-        </p>
-        <button>Create My Resume</button>
+        <h1>Your Resume </h1>
+       
     </div>
     
     <div class="nav" style="margin-left: 680px;">
-        <ul>
-            <li>ALLTEMPLATES</li>
-            <li>SIMPLE</li>
-            <li>MODERN</li>
-            <li>CREATIVE</li>
-            <li>PROFESSIONAL</li>
-        </ul>
+      
     </div>
 
     <hr>
     
     <div class="image">
-        {% for i in template %}
+        {% for i in user %}
         <div class="img">
-            <a href="{% url 'create_resume' t_id=i.t_id %}"><img height="400px"  src="{{ i.t_img.url }}" alt=""></a>
+            <img height="400px" width="400px" src="{{ i.t_img.url }}" alt="">
             </div>
             {% endfor %}
             

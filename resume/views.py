@@ -32,6 +32,8 @@ from resume.models import (
 import re
 from docx import Document
 from resume_bulider import settings
+import re
+from docx import Document
 
 # Create your views here.
 def navbar(request):
@@ -315,34 +317,7 @@ def template(request):
      return render(request,'template.html',{'template':template});
           
 
-def cerate_resume(request,t_id):
-     
 
-     def myreplace(document, replacements):
-          for p in document.paragraphs:
-               for t, r in replacements:
-                    p.text = re.sub(t, r, p.text)
-
-          for table in document.tables:
-               for row in table.rows:
-                    for cell in row.cells:
-                         for t, r in replacements:
-                              cell.text = re.sub(t, r, cell.text)
-
-     replacements = [
-     ("JOB TITLE", "Web Development"),
-     ("INSTITUTION NAME", "GLS UNIVERSITY"),
-     # Add more tuples here for additional replacements
-     ]
-
-     file = "resume.docx"
-     document = Document(file)
-     myreplace(document, replacements)
-     document.save("demo1.docx")
-     print("done")
-     
-     
-     return render(request,'cerate_resume.html');
 
 def job(request):
      
@@ -570,12 +545,21 @@ def apply(request,jv_id):
                zip = request.POST['zip']
                phone = request.POST['phone']
                resume = request.FILES['resume']
-               apply = apply_job.objects.create(user_id=user,jv_id=jv,c_id=jv.c_id,fname=fname,email=email,address=address,city=city,zip=zip,phone=phone,resume=resume)
-               apply.save()
-               messages.success(request, "Apply Successfully")
-               return redirect('job')
+               extension = os.path.splitext(resume.name)[1]
+               if extension != '.pdf':
+                    con={
+                         'error': 'Please upload pdf file only'
+                    }
+                    return render(request,'job_Apply.html',con)
+               else:
+                    apply = apply_job.objects.create(user_id=user,jv_id=jv,c_id=jv.c_id,fname=fname,email=email,address=address,city=city,zip=zip,phone=phone,resume=resume)
+                    apply.save()
+                    con={
+                         'success': "Apply Successfully"
+                    }
+                    return render(request,'job_Apply.html',con)
      except:
-          return redirect('home')
+          return redirect('login')
      
      
      return render(request,'job_apply.html');
@@ -605,6 +589,149 @@ def download(request,aj_id):
           return FileResponse(open(file, 'rb'), as_attachment=True, filename=f'{apply.fname}.pdf')
      except:
           return redirect('c_app')
+ 
+ 
+def user_resume(request,resume_id):
+     try:
+          user = User_t.objects.get(username=resume_id)
+          con={
+               'user':user
+          }
+          return render(request,'user_resume.html',con)
+     except:
+          con={
+               "error": "Empty...!"
+          }    
+          return render(request,'user_resume.html',con)
+     
+     
+     
+def edit_templates(request,t_id=None):
+   
+          
+     # try:
+          template = templates.objects.get(t_id=t_id)
+          user = User_t.objects.get(username=request.user)
+          if request.method == 'POST':
+               fname = request.POST['fname']
+               lname = request.POST['lname']
+               profession = request.POST['profession']
+               email = request.POST['email']
+               address = request.POST['address']
+               city = request.POST['city']
+               zip = request.POST['zip']
+               dob = request.POST['dob']
+               phone = request.POST['phone']
+               p_summary = request.POST['p_summary']
+               p_description = request.POST['p_description']
+               j_title = request.POST['j_title']
+               company = request.POST['company']
+               t_work = request.POST['t_work']
+               j_description = request.POST['j_description']
+               university = request.POST['university']
+               degree = request.POST['degree']
+               u_description = request.POST['u_description']
+               Skills = request.POST['Skills']
+               year = request.POST['year']
+               
+              
+
+               def myreplace(document, replacements):
+                    for p in document.paragraphs:
+                         for t, r in replacements:
+                              p.text = re.sub(t, r, p.text)
+
+                    for table in document.tables:
+                         for row in table.rows:
+                              for cell in row.cells:
+                                   for t, r in replacements:
+                                        cell.text = re.sub(t, r, cell.text)
+
+                    # Replace text in headers
+                    for section in document.sections:
+                         for header in section.header.paragraphs:
+                              for t, r in replacements:
+                                   header.text = re.sub(t, r, header.text)
+
+               replacements = [
+               ("Rahul Jain", f"{fname} {lname}"),
+               ("Sales Manager", f"{profession}"),
+               ("robert.richardson@gmail.com", f"{email}"),
+               ("Address", f"{address}"),
+               ("City", f"{city}"),
+               ("Zip", f"{zip}"),
+               ("DOB", f"{dob}"),
+               ("1(970) 456 566 719", f"{phone}"),
+               ("Sales Manager | XYZ Corporation, Anytown, USA | January 2021 – Present ", f"{p_summary}"),
+               ("Lead a team of 10 sales representatives to consistently exceed quarterly and annual sales targets, resulting in a 20% YoY revenue growth. ", f"{p_description}"),
+               ("Job Title", f"{j_title}"),
+               ("Company", f"{company}"),
+               ("Time Work", f"{t_work}"),
+               ("Job Description", f"{j_description}"),
+               ("University", f"{university}"),
+               ("Degree", f"{degree}"),
+               ("Year", f"{year}"),
+               ("University Description", f"{u_description}"),
+               ("Skills", f"{Skills}"),
+               ]
+               
+               
+               
+
+               file = template.t_file.path
+               document = Document(file)
+               myreplace(document, replacements)
+               document.save(f"media/u_resume/demo.docx")
+               user.u_resume = "u_resume/demo.docx"
+               user.save()
+               # os.remove(f"demo.docx")
+               print("done")
+               
+               con={
+                    'uid':user
+               }
+               
+               return redirect('r_download')
+          return render(request,'edit_templates.html')
+               
+     # except:         
+     #      return render(request,'edit_templates.html')
+     
+     
+     
+     
+def r_download(request):
+     user = User_t.objects.get(username=request.user)
+     
+     pdf = user.u_resume.path
+     save_pdf = f"media/r_pdf/{user.username}.pdf"
+     subprocess.run(['unoconv', '-f', 'pdf', '-o', save_pdf, pdf])
+     user.r_pdf = f"r_pdf/{user.username}.pdf"
+     pdf1 = pdf2image.convert_from_path(user.r_pdf.path)
+     image_io = BytesIO()
+     pdf1[0].save(image_io, format='PNG')
+     img = Image.open(image_io)
+     img.save(f"media/img_r/{user.username}.png")
+     user.r_img = f"img_r/{user.username}.png"
+     user.save()
+     # user.r_pdf=convert(pdf)
+     user.save()
+     
+     if request.POST:
+          return FileResponse(open(user.r_pdf.path, 'rb'), as_attachment=True, filename=f'{user.username}.pdf')
+     
+     
+     # response = FileResponse(open(user.resume.path, 'rb'), as_attachment=True, filename=f'demo.docx')
+     con={
+          'uid':user
+     }
+     return render(request,'download.html',con)
+     
+         
+
+                    
+                    
+
      
           
 

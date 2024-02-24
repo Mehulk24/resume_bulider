@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOCX Viewer and PDF Download</title>
+</head>
+<style>
+     body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+      }
+      
+      h1 {
+          text-align: center;
+      }
+      
+      iframe {
+          display: block;
+          margin: 20px auto;
+      }
+      
+      button {
+          display: block;
+          margin: 20px auto;
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+      }
+      
+      button:hover {
+          background-color: #45a049;
+      }
+      
+</style>
+<body>
+
+<h1>View DOCX File and Download PDF</h1>
+
+<!-- Display DOCX file -->
+<center><img  width="700" height="760" src="{{uid.r_img.url}}" style="border: 1px solid black;" alt=""></center>
+
+<!-- Button to download PDF -->
+<form action="" method="post" >
+    {% csrf_token %}
+  <input type="hidden" name="docx_file" value="{{uid.r_pdf.url}}">
+  <button type="submit">Download PDF</button>
+</form>
+
+</body>
+</html>

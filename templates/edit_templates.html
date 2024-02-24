@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Creat Resume</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <style>
+          h1 {
+               font-size: 20px;
+               margin-top: 24px;
+               margin-bottom: 24px;
+             }
+             
+             img {
+             height: 40px;}
+
+          .mt-5 {
+               margin-top: 12rem!important;
+           }
+     </style>
+  </head>
+  <body>
+     {% include 'navbar.html' %}
+
+
+  <div class=" col-md-6 offset-md-3 mt-5">
+    
+    {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+    {% endif %}
+    {% if success %}
+      <div class="alert alert-success" role="alert">
+        {{ success }}
+      </div>
+    {% endif %}
+      
+    {% comment %} <a target="_blank" href="https://getform.io?ref=codepenHTML">  {% endcomment %}
+    </a>
+    <br>
+         <h1 class="mt-5">Create Your resume</h1>
+    <form accept-charset="UTF-8"  method="POST" enctype="multipart/form-data" >
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="exampleInputName">First Name</label>
+        <input type="text" name="fname" class="form-control" id="exampleInputName" placeholder="Enter your First Name" required="required">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputName">profession</label>
+        <input type="text" name="lname" class="form-control" id="exampleInputName" placeholder="Enter your Last Name" required="required">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputName">Last Name</label>
+        <input type="text" name="profession" class="form-control" id="exampleInputName" placeholder="Enter your profession" required="required">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1" required="required">Email address</label>
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1" required="required">Phone</label>
+        <input type="tel" name="phone" class="form-control" id="" aria-describedby="" placeholder="Enter your Phone Number">
+      </div>
+      <div class="form-group">
+        <label for="inputAddress">Address</label>
+        <input type="text" name="address" class="form-control" id="inputAddress" placeholder="1234 Main St">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputCity">City</label>
+          <input type="text" name="city" class="form-control" id="inputCity" placeholder="Istanbul">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="inputZip">Zip</label>
+          <input type="text" name="zip" class="form-control" id="inputZip" placeholder="34000">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="inputZip">Date Of Birth</label>
+          <input type="text" name="dob" class="form-control" id="inputZip" placeholder="34000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Professional Summary</label>
+        <div class="col-10">
+          <input type='text' name="p_summary" id="" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Professional Summary</label>
+        <div class="col-10">
+          <textarea name="p_description" id="" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <h4>Employment History</h4>
+        <label for="example-tel-input" class="col-2 col-form-label">Job Title</label>
+        <div class="col-10">
+          <input type="text" name="j_title" id="" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Company Name</label>
+        <div class="col-10">
+          <input type="text" name="company" class="form-control" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Total Work</label>
+        <div class="col-10">
+          <input type="text" name="t_work" class="form-control" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Description</label>
+        <div class="col-10">
+          <textarea name="j_description" id="" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <h4>Education</h4>
+        <label for="example-tel-input" class="col-2 col-form-label">University Name</label>
+        <div class="col-10">
+          <input type="text" name="university" class="form-control" >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Degree</label>
+        <div class="col-10">
+          <input type="text" name="degree" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Year of Passing</label>
+        <div class="col-10">
+          <input type="text" name="year" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Description</label>
+        <div class="col-10">
+          <textarea name="u_description" id=""  class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Skills</label>
+        <div class="col-10">
+          <input type="text" name="Skills" class="form-control" >
+        </div>
+      </div>
+      <!-- <div class="form-group mt-3">
+        <label class="mr-4">Upload your Resume:</label>
+        <input type="file" name="resume">
+      </div> -->
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+     {% include 'footer.html' %}
+  </body>
+</html>

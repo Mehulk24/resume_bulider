@@ -32,7 +32,9 @@ urlpatterns = [
     path('apply/<int:jv_id>/',views.apply,name='apply'),
     path('c_app/',views.c_app,name='c_app'),
     path('download/<int:aj_id>',views.download,name='download'),
-    
+    path('resume/<str:resume_id>/',views.user_resume,name='resume'),
+    path('create_resume/<int:t_id>/',views.edit_templates,name='create_resume'),
+    path('download/',views.r_download,name='r_download'),
     
     
 ]
