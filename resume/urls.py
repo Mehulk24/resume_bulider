@@ -35,6 +35,7 @@ urlpatterns = [
     path('resume/<str:resume_id>/',views.user_resume,name='resume'),
     path('create_resume/<int:t_id>/',views.edit_templates,name='create_resume'),
     path('download/',views.r_download,name='r_download'),
+    path('qr/',views.qr,name='qr'),
     
     
 ]

@@ -309,106 +309,17 @@
            <div class="row">
              <div class="col-lg-12">
                <div class="owl-carousel owl-portfolio">
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.2</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a rel="sponsored" href="" target="_parent"><h4>No.3</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.4</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.5</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.6</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.7</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.8</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.9</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div class="item">
-                   <div class="thumb">
-                     <img src="{% static 'images/1.webp' %}" alt="">
-                     <div class="hover-effect">
-                       <div class="inner-content">
-                         <a href="#"><h4>No.10</h4></a>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
+                
+                {% for i in template %}
+
+                <div class="item">
+                  <div class="thumb">
+                    <img src="{{i.t_img.url}}" alt="">      
+                  </div>
+                </div>
+                
+                {% endfor %}
+                </div>
                </div>
              </div>
            </div>

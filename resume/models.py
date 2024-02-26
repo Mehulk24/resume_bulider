@@ -19,6 +19,7 @@ class User_t(models.Model):
      u_resume = models.FileField(upload_to='u_resume/',default="")
      r_pdf = models.FileField(upload_to='r_pdf/',default="")
      r_img = models.ImageField(upload_to='img_r/',default="")
+     r_qr = models.ImageField(upload_to='qr/',default="")
      
      def __str__(self):
           return self.firstname

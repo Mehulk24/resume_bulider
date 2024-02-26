@@ -34,13 +34,20 @@ from docx import Document
 from resume_bulider import settings
 import re
 from docx import Document
+import cloudinary
+import cloudinary.uploader
+import qrcode
 
 # Create your views here.
 def navbar(request):
      return render(request,'navbar.html',{'email':request.session.get('email')});
 
 def index(request):
-     return render(request,'index.html');
+     template = templates.objects.all()
+     con={
+          'template':template
+     }
+     return render(request,'index.html',con);
      
 
 
@@ -636,22 +643,17 @@ def edit_templates(request,t_id=None):
                
               
 
-               def myreplace(document, replacements):
-                    for p in document.paragraphs:
-                         for t, r in replacements:
-                              p.text = re.sub(t, r, p.text)
+               def myreplace(doc, replacements):
+                    for old_text, new_text in replacements:
+                         for paragraph in doc.paragraphs:
+                              if old_text in paragraph.text:
+                                   inline = paragraph.runs
+                                   for i in range(len(inline)):
+                                        if old_text in inline[i].text:
+                                             text = inline[i].text.replace(old_text, new_text)
+                                             inline[i].text = text
 
-                    for table in document.tables:
-                         for row in table.rows:
-                              for cell in row.cells:
-                                   for t, r in replacements:
-                                        cell.text = re.sub(t, r, cell.text)
-
-                    # Replace text in headers
-                    for section in document.sections:
-                         for header in section.header.paragraphs:
-                              for t, r in replacements:
-                                   header.text = re.sub(t, r, header.text)
+                   
 
                replacements = [
                ("Rahul Jain", f"{fname} {lname}"),
@@ -726,7 +728,67 @@ def r_download(request):
           'uid':user
      }
      return render(request,'download.html',con)
+
+def qr(request):
+    
+     user = User_t.objects.get(username=request.user)
+
+     # Configure Cloudinary (replace with your Cloudinary credentials)
+               
+     cloudinary.config( 
+     cloud_name = "dmpn1b5ux", 
+     api_key = "722747233732897", 
+     api_secret = "94CLohY7lyIeBhQ-nof66nJRUVk" 
+     )
+
+     def upload_image_to_cloudinary(image_path):
+          # Upload image to Cloudinary
+          upload_result = cloudinary.uploader.upload(image_path)
+          return upload_result['secure_url']
+
+     def generate_qr_code(image_url, qr_code_image):
+     # Generate QR code
+          qr = qrcode.QRCode(
+               version=1,
+               error_correction=qrcode.constants.ERROR_CORRECT_L,
+               box_size=10,
+               border=4,
+          )
+          qr.add_data(image_url)
+          qr.make(fit=True)
+
+          # Create QR code image
+          qr_img = qr.make_image(fill_color="black", back_color="white")
+          qr_img.save(qr_code_image)
+          user.r_qr = f"qr/{user.username}.png"
+          user.save()
+          
+
      
+     img = user.r_img.path
+     image_path = img
+
+     # Upload the image to Cloudinary and get the URL
+     image_url = upload_image_to_cloudinary(image_path)
+
+     # Path to save the QR code image
+     qr_code_image = f"media/qr/{user.username}.png"
+
+     # Generate QR code
+     generate_qr_code(image_url, qr_code_image)
+     
+     if request.POST:
+          return FileResponse(open(user.r_qr.path, 'rb'), as_attachment=True, filename=f'{user.username}.png')
+     
+     
+     # response = FileResponse(open(user.resume.path, 'rb'), as_attachment=True, filename=f'demo.docx')
+     con={
+          'uid':user
+     }
+    
+
+     return render(request,'qr.html',con)
+
          
 
                     
