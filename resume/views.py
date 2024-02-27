@@ -664,18 +664,20 @@ def edit_templates(request,t_id=None):
                ("Zip", f"{zip}"),
                ("DOB", f"{dob}"),
                ("1(970) 456 566 719", f"{phone}"),
-               ("Sales Manager | XYZ Corporation, Anytown, USA | January 2021 – Present ", f"{p_summary}"),
+               ("P_summart", f"{p_summary}"),
                ("Lead a team of 10 sales representatives to consistently exceed quarterly and annual sales targets, resulting in a 20% YoY revenue growth. ", f"{p_description}"),
-               ("Job Title", f"{j_title}"),
+               ("Job_Title", f"{j_title}"),
                ("Company", f"{company}"),
-               ("Time Work", f"{t_work}"),
-               ("Job Description", f"{j_description}"),
+               ("Time_Work", f"{t_work}"),
+               ("Job_Description", f"{j_description}"),
                ("University", f"{university}"),
                ("Degree", f"{degree}"),
                ("Year", f"{year}"),
-               ("University Description", f"{u_description}"),
-               ("Skills", f"{Skills}"),
+               ("University_Description", f"{u_description}"),
+               ("skills", f"{Skills}"),
                ]
+               
+               print(replacements)
                
                
                
