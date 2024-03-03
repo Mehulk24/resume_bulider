@@ -2,15 +2,12 @@ from django.utils import timezone
 from django.http import FileResponse
 import os
 import smtplib
-from docx2pdf import convert
 from PIL import Image
 from io import BytesIO
 from django.core.files import File
 import random
 from django.utils import timezone
 import pdf2image
-from docx2pdf import convert
-from django.db.models import Count
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import subprocess
@@ -29,10 +26,7 @@ from resume.models import (
      templates
 
 )
-import re
-from docx import Document
-from resume_bulider import settings
-import re
+import requests
 from docx import Document
 import cloudinary
 import cloudinary.uploader
@@ -328,11 +322,16 @@ def template(request):
 
 def job(request):
      
+     url = "https://zobjobs.com/api/jobs"
+
+     response = requests.get(url).json()
      
      job = job_vacancy.objects.all()
+     print(response)
      
      j={
           'job':job,
+          'response': response['jobs'],
      }
     
      return render(request,'job.html',j);
@@ -557,19 +556,19 @@ def apply(request,jv_id):
                     con={
                          'error': 'Please upload pdf file only'
                     }
-                    return render(request,'job_Apply.html',con)
+                    return render(request,'job_apply.html',con)
                else:
                     apply = apply_job.objects.create(user_id=user,jv_id=jv,c_id=jv.c_id,fname=fname,email=email,address=address,city=city,zip=zip,phone=phone,resume=resume)
                     apply.save()
                     con={
                          'success': "Apply Successfully"
                     }
-                    return render(request,'job_Apply.html',con)
+                    return render(request,'job_apply.html',con)
      except:
           return redirect('login')
      
      
-     return render(request,'job_apply.html');
+     return render(request,'job_apply.html')
 
 
 def c_app(request):
@@ -597,26 +596,14 @@ def download(request,aj_id):
      except:
           return redirect('c_app')
  
- 
-def user_resume(request,resume_id):
-     try:
-          user = User_t.objects.get(username=resume_id)
-          con={
-               'user':user
-          }
-          return render(request,'user_resume.html',con)
-     except:
-          con={
-               "error": "Empty...!"
-          }    
-          return render(request,'user_resume.html',con)
+
      
      
      
 def edit_templates(request,t_id=None):
    
           
-     # try:
+     try:
           template = templates.objects.get(t_id=t_id)
           user = User_t.objects.get(username=request.user)
           if request.method == 'POST':
@@ -664,8 +651,8 @@ def edit_templates(request,t_id=None):
                ("Zip", f"{zip}"),
                ("DOB", f"{dob}"),
                ("1(970) 456 566 719", f"{phone}"),
-               ("P_summart", f"{p_summary}"),
-               ("Lead a team of 10 sales representatives to consistently exceed quarterly and annual sales targets, resulting in a 20% YoY revenue growth. ", f"{p_description}"),
+               ("p_summary", f"{p_summary}"),
+               ("p_description", f"{p_description}"),
                ("Job_Title", f"{j_title}"),
                ("Company", f"{company}"),
                ("Time_Work", f"{t_work}"),
@@ -673,7 +660,7 @@ def edit_templates(request,t_id=None):
                ("University", f"{university}"),
                ("Degree", f"{degree}"),
                ("Year", f"{year}"),
-               ("University_Description", f"{u_description}"),
+               ("U_description", f"{u_description}"),
                ("skills", f"{Skills}"),
                ]
                
@@ -688,18 +675,13 @@ def edit_templates(request,t_id=None):
                document.save(f"media/u_resume/demo.docx")
                user.u_resume = "u_resume/demo.docx"
                user.save()
-               # os.remove(f"demo.docx")
                print("done")
-               
-               con={
-                    'uid':user
-               }
                
                return redirect('r_download')
           return render(request,'edit_templates.html')
                
-     # except:         
-     #      return render(request,'edit_templates.html')
+     except:         
+          return render(request,'login.html')
      
      
      
@@ -735,7 +717,6 @@ def qr(request):
     
      user = User_t.objects.get(username=request.user)
 
-     # Configure Cloudinary (replace with your Cloudinary credentials)
                
      cloudinary.config( 
      cloud_name = "dmpn1b5ux", 

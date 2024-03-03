@@ -58,6 +58,37 @@
 </div>
   {% endfor %} 
 
+  {% for i in response %}
+        
+    <div class="sale">
+        <h3>{{i.companyName}} -  {{i.title}}</h3>
+        <div class="icons">
+            <div class="icon1">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <p>{{ i.category }}</p>
+            </div>
+           
+        <div class="icon1">
+            <i class="fa-solid fa-location-dot">
+            </i>
+            <p>{{i.location}}</p>
+        </div>
+    </div>
+    
+    <div class="icon2">
+        <i class="fa-solid fa-file">
+        </i>
+        <p>{{ i.description|slice:":90" }}...</p>
+        
+    </div>
+    <br>
+    <a  href="{{i.link}}">
+        <button class=" btn btn-primary"> View details </button>
+        </a>
+    
+</div>
+  {% endfor %} 
+
     {% include 'footer.html'%}
 </body>
 

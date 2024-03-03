@@ -98,26 +98,37 @@
             <p>{{i.jv_category}}</p>
             </div>
         <div class="key">
-            <h5>Key Accountabilities</h5>
+            <h5>Job Summary</h5>
             <p>{{i.jv_description}}</p>
         </div>
 
         <div class="qua">
 
-            <h5>Minimum Qualifications</h5>
-            <p>High school diploma,secondary education level or equivalent</p>
-            <p>Minimum of four years of related work experience</p>
-            <p>Other minimum qualifications may apply</p>
+            <h5>Key Responsibilites</h5>
+            <p>{{i.jv_key_responsibilites}}</p>
+        </div>
+
+        <div class="qua">
+
+            <h5>Job Requirement</h5>
+            <p>{{i.jv_requirements}}</p>
+        </div>
+
+        <div class="qua">
+
+            <h5>Job Function</h5>
+            <p>{{i.jv_function}}</p>
         </div>
 
         <div class="role">
             <p>Role : {{i.jv_category}}</p>
             <p>Employment Type : {{i.jv_time}}</p>
-            <p>Role Category : Retail & B2C Sales</p>
-            <p>Education:</p>
-            <p>UG:Any Graduate</p>
-            <p>PG:Any Post Graduate</p>
-            <p>Key Skills : B.Com,M.Com</p>
+            <p>Role Category : {{i.jv_category}}</p>
+            <p>Exprince: {{i.jv_exprince}}</p>
+            <p>Salary : {{i.jv_salary}}</p>
+            <p>Location : {{i.jv_location}}, {{i.jv_city}}, {{i.jv_pincode}}</p>
+            <p>Job Role : {{i.jv_time}}</p>
+            <p>Key Skills : {{i.jv_category}} </p>
         </div>
         <center><a  href="{% url 'apply' i.jv_id %}">
             <button class="b btn btn-primary"> Apply Now </button>

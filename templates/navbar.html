@@ -34,7 +34,7 @@
               <li class="scroll-to-section"><a href="{% url 'job' %}">Jobs</a></li>
               <li class="scroll-to-section"><a href="{% url 'home' %}#about">About</a></li>
               <li class="scroll-to-section"><div class="dropdown">
-                <a href class="dropbtn">Compnay</a>
+                <a href class="dropbtn">Company</a>
                 <div class="dropdown-content">
                   <a href="{% url 'company' %}">Sing Up</a>
                   <a href="{% url 'company_login' %}">Login</a>
@@ -51,8 +51,6 @@
                   <a href class="dropbtn">{{ user.get_full_name }}</a>
                   <div class="dropdown-content">
                     <a href="{% url 'profile' %}">My Account</a>
-                    <a href="{% url 'resume' resume_id=user %}">My Resume</a>
-                    <a href="#">My Jobs</a>
                     <a href="{% url 'logout' %}">Logout</a>
                   </div>
                 </div>
