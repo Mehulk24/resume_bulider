@@ -1,6 +1,6 @@
 {
      "version" : 2,
-     "builds" : [
+     "build" : [
           {
                "src" : "resume_bulider/wsgi.py",
                "use" : "@vercel/python",
