@@ -3,3 +3,4 @@ docx
 pdf2image
 cloudinary
 qrcode
+db-sqlite3
