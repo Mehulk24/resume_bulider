@@ -1,3 +1,4 @@
+django
 docx
 pdf2image
 cloudinary
