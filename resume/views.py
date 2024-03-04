@@ -100,9 +100,9 @@ def sing_up(request):
           sender_password = 'vytbmfpufreksdvk'
           receiver_email = email
           subject = 'OTP to register in Resume Bulder'
-          body = f'''Hi {request.session.get('fname')} 
-          Wellcome to a Resume Bulder Website.
-          Tank you For a Registrition To a site.
+          body = f'''   Hi {request.session.get('fname')} 
+          Welcome to a Resume Builder Website.
+          Thank you For a Registration.
           Your Verification Code is : {otp}'''
           
 
@@ -125,12 +125,12 @@ def sing_up(request):
                messages.error(request,"password is too short,please enter more than 8 character")
                
           else:
-               otp_ver(email)
                request.session['uname']= username
                request.session['fname']= firstname
                request.session['lname']= lastname
                request.session['email']= email
                request.session['password']= password
+               otp_ver(email)
                
                return redirect('email')
 
